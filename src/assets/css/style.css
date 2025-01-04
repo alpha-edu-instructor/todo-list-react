@@ -179,6 +179,10 @@ body {
   align-items: center;
 }
 
+.form-hidden {
+  visibility: hidden;
+}
+
 .form {
   display: flex;
   gap: 12px;

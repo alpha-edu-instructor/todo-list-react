@@ -1,9 +1,20 @@
-export default function Categories() {
+import CategoriesItem from "./CategoriesItem";
+
+export default function Categories({
+  categories,
+  activeCategory,
+  setActiveCategory
+}) {
   return (
     <ul className="todo-categories">
-      <li className="todo-categories-btn todo-categories-btn__active">Все</li>
-      <li className="todo-categories-btn">Завершенные</li>
-      <li className="todo-categories-btn">Не завершенные</li>
+      {categories.map((item, i) => (
+        <CategoriesItem
+          activeCategory={activeCategory}
+          setActiveCategory={setActiveCategory}
+          name={item}
+          index={i}
+        />
+      ))}
     </ul>
   );
 }
