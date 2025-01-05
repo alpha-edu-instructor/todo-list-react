@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Categories from "./components/Categories";
@@ -11,24 +11,20 @@ function App() {
   const [activeCategory, setActiveCategory] = useState(0);
 
   // ToDoList
-  const [tasks, setTasks] = useState([
-    {
-      name: "Дописать статью",
-      isCompleted: false
-    },
-    {
-      name: "Скачать сериал",
-      isCompleted: true
-    },
-    {
-      name: "Прочитать 3 главу книги",
-      isCompleted: true
-    },
-    {
-      name: "Приготовить ужин",
-      isCompleted: false
+  const [tasks, setTasks] = useState([]);
+
+  useEffect(() => {
+    // componentDidMount
+    const storedTasks = JSON.parse(localStorage.getItem("tasks"));
+    if (storedTasks) {
+      setTasks(storedTasks);
     }
-  ]);
+  }, []);
+
+  useEffect(() => {
+    // componentDidUpdate
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  }, [tasks]);
 
   function toggleTaskCompletion(name) {
     const updatedTasks = tasks.map((task) => {
@@ -53,6 +49,19 @@ function App() {
     }
   }
 
+  function addTask(name) {
+    const newTask = {
+      name: name,
+      isCompleted: false
+    };
+    setTasks([...tasks, newTask]);
+  }
+
+  function deleteTask(name) {
+    const updatedTasks = tasks.filter((task) => task.name !== name);
+    setTasks(updatedTasks);
+  }
+
   return (
     <div className="app">
       <div className="app-main">
@@ -65,10 +74,11 @@ function App() {
           />
           <TodoList
             toggleTaskCompletion={toggleTaskCompletion}
+            deleteTask={deleteTask}
             tasks={filterTasks(activeCategory)}
           />
         </div>
-        <Footer />
+        <Footer addTask={addTask} />
       </div>
     </div>
   );

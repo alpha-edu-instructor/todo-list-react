@@ -13,6 +13,7 @@ export default function Categories({
           setActiveCategory={setActiveCategory}
           name={item}
           index={i}
+          key={item}
         />
       ))}
     </ul>
