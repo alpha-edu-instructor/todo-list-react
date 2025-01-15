@@ -1,9 +1,9 @@
 import { useState } from "react";
+import classNames from "classnames";
 
 function Footer({ addTask }) {
   const [isOpen, setIsOpen] = useState(false);
   const [taskInput, setTaskInput] = useState("");
-  const classNames = isOpen ? "form" : "form form-hidden";
 
   function toggleForm() {
     setIsOpen(!isOpen);
@@ -21,7 +21,13 @@ function Footer({ addTask }) {
 
   return (
     <footer className="app-footer">
-      <form action="#" className={classNames} onSubmit={(e) => submitForm(e)}>
+      <form
+        action="#"
+        className={classNames("form", {
+          "form-hidden": !isOpen
+        })}
+        onSubmit={(e) => submitForm(e)}
+      >
         <input
           type="text"
           placeholder="Введите..."
